@@ -1,0 +1,11 @@
+# VIM's swap file
+*.swp
+
+# TexMaker files
+*.toc
+*.out
+*.log
+*.aux
+*.pdf
+*.synctex.gz
+
