@@ -1,0 +1,141 @@
+Design for Core of the Pem toolkit
+revision: 2016-1-16 by phylame <phylame@163.com>
+
+Base objects:
+	Blob
+	Text
+	Chapter
+	Section
+	Book
+
+names:
+ o. BS                     book structure description
+ o. parser                 parse book file to BS
+ o. maker                  make BS to book file
+ o. BW                     the parser or maker
+ o. parser_detector        detect parser by name
+ o. maker_detector         detect maker by name
+
+data types:
+  str: string
+  int: integer
+  real: real number
+  object: any type
+  bool: boolean
+  file: input source
+  book: the BS
+  input: input file
+  output: output file
+  args: map<str, object>
+
+common maker interface:
+  parse(input, args): BS
+common parser interface:
+  make(book, output, args): bool
+
+* pem parsing procedure
+  input => parser_detector => parser => BS
+* pem making procedure
+  BS => maker_detector => maker => output
+
+BS:
+  book tree, marked with index:
+            book
+           /    \
+       chapter  chapter
+      /  |   \
+   chapter ....
+
+OO design for BS:
+  class hierarchy:
+    chapter -> book
+  minimal operations:
+   a). chapter:
+    * attributes: information of the chapter
+       name(str) <--> value(object)
+        o. setAttribute(name, value)
+        o. updateAttributes(chapter|map, removePresent=false)
+        o. hasAttribute(name): bool
+        o. getAttribute(name, def=nil): object
+        o. stringAttribute(name, def=nil): str
+        o. removeAttribute(name): object
+        o. clearAttributes()
+        o. attributeCount(): int
+        o. attributeNames(): list
+        o. attributeEntries(): list of entry
+    * shortcut attribute access
+        o. getXXX & setXXX: 
+          1). title(str)
+          2). cover(file)
+          3). intro(text)
+          4). words(int)
+    * section: manage sub chapters
+        o. getParent(): chapter
+        o. append(chapter)
+        o. insert(index, chapter)
+        o. indexOf(chapter): int
+        o. remove(chapter): bool
+        o. removeAt(index): chapter
+        o. replace(index, chapter): chapter
+        o. chapterAt(index): chapter
+        o. clear()
+        o. size(): int
+        o. isSection(): bool
+        o. iterable implements
+    * content: text content of chapter
+        o. getContent(): text
+        o. setContent(text)
+    * cleanup: release all releated resources(for class without deconstructor)
+        o. registerCleanup(call)
+        o. removeCleanup(call)
+        o. cleanup()
+   b). book:
+    * shortcut attribute access
+        o. getXXX & setXXX:
+          1). author(str)
+          2). genre(str)
+          3). date(date)
+          4). state(str)
+          5). publisher(str)
+          6). rights(str)
+          7). language(str)
+          8). subject(str)
+          9). vendor(str)
+    * extensions: extension information of book
+       key(str) <--> value(object)
+        o. setExtension(key, value)
+        o. hasExtension(key): bool
+        o. getExtension(key, def=nil): object
+        o. removeExtension(key): object
+        o. clearExtensions()
+        o. extensionCount(): int
+        o. extensionNames(): list
+        o. extensionEntries(): list of entry
+
+helper for parser & maker
+  object factory: make new parser
+    o. name(str)
+    o. path(str)
+    o. parser: the callback or class
+  detector operations:
+    o. registerXXX(name, path|parser)
+    o. removeXXX(name): object_factory
+    o. hasXXX(name): bool
+    o. supportedXXXs(): list
+    o. getXXX(name): parser|maker
+  name & extensions: map name of file extension name:
+    o. mapExtensions(name, list)
+    o. extensionsOfName(name): list
+    o. nameOfExtension(extension): str
+
+pem utilities
+  file operations:
+    o. readBook(input, format, args): book
+    o. writeBook(book, output, format, args): bool
+  chapter:
+    o. chapterForIndex(chapter, int[]): chapter
+    o. chapterToBook(chapter): book
+    o. depthOfChapter(chapter): int
+    o. variantType(object): str
+      supported types by pem:
+       str, int, real, bool, datetime(date, time), text, file

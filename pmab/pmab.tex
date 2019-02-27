@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{listings}
+	\title{Pem's Manifest Archive of Book (PMAB) 3.0}
+	\author{Peng Wan, PW}
+\begin{document}
+	\maketitle
+	\tableofcontents
+	\section{Overview}
+		\paragraph{} The PMAB is an e-book format designed for \textbf{Pem}. PMAB is the default format for Pem output and input. PMAB describes book meta properties and contents.
+		\subsection{Definitions}
+			\paragraph{} \textcolor{cyan}{ZIP}
+				\subparagraph{} Normal ZIP archive.
+			\paragraph{} \textcolor{cyan}{PMAB}
+				\subparagraph{} A ZIP archive contains PMAB structure.
+			\paragraph{} \textcolor{cyan}{PBM}
+				\subparagraph{} PMAB's Book Metadata - defines book properties and extension resources.
+			\paragraph{} \textcolor{cyan} {PBC}
+				\subparagraph{} A book navigation definition (the PMAB's Book Contents).
+	\section{Structure}
+		\paragraph{} PMAB is saved as ZIP file and commonly ends with extension name ".pmab".
+		\paragraph{} The following graph shows structure of PMAB archive:
+			\begin{center}
+%				add picture
+			\end{center}
+		\subsection{mimetype}
+			\paragraph{} \textbf{mimetype} file identifies format of the PMAB ZIP archive, this file should be stored at the root in ZIP archive.
+			\paragraph{} This file should be read firstly to check PMAB format, content of \textbf{mimetype}: \textit{application/pmab+zip}.
+	\section{The PBM Document 3.0}
+		\subsection{Properties}
+			\paragraph{} \textbf{Properties}
+		\subsection{Extensions}
+			\paragraph{} \textbf{Extensions}
+	\section{The PBC Document 3.0}
+		\subsection{Table of contents (TOC)}
+		\subsubsection{Chapter}
+\end{document}

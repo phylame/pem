@@ -1,0 +1,40 @@
+SCI - Simple Console Interface for Pem.
+
+operations:
+  o. view book information
+  o. modify book attributes
+  o. modify book extensions
+  o. convert book formats
+  o. extract sub chapter
+
+common procedure:
+  input => pem => BS => update => view, extract...
+            |           |   |          |
+         -f, -p        -a  -e     -t, -o, -m
+
+cli options (long option is optional):
+ -h, --help:        view help message
+ -v, --version:     view version information
+ -l, --list:        list supported formats
+ -f <format>:       specify input format
+ -t <format>:       specify output format
+ -o <path>:         specify output directory or file
+ -c, --convert:     convert book format
+ -j, --join:        join input files
+ -m <name=value>:   maker arguments
+ -p <name=value>:   parser arguments
+ -a <name=value>:   attributes to output book
+ -e <name=value>:   extensions to output book
+ -w <name>:         view book information (attributes, toc, chapter, extensions)
+ -x <index>:        extract chapter to book
+
+view names:
+  syntax:
+    * names: list supported names of current object
+    * `name`: view attribute with `name` of curent object
+    * chapterN.N$`name`: set chapter with index to current object and view `name`
+    * item$`name`: view extension with name
+  predifined names:
+    * all (default): view all attributes of curent object
+    * toc: chapter tree of curent object
+    * ext: all extension items

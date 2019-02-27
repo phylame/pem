@@ -1,0 +1,3 @@
+client width: 600
+Horizontal alignment: center
+Vertical alignment: top offset: 765 - height / 2
